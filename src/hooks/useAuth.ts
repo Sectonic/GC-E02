@@ -22,7 +22,7 @@ const useAuth = () => {
     const caretakerLogin = async () => {
         setError(null);
         try {
-            const REDIRECT_URI = `http://firebase-emulator.com:5001/dementia-assistance-network/us-central1/google`;
+            const REDIRECT_URI = `https://dan-api.vercel.app/auth/google`;
             const authUrl = new URL("https://accounts.google.com/o/oauth2/v2/auth");
             authUrl.searchParams.append("response_type", "code");
             authUrl.searchParams.append("client_id", process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID || "");
