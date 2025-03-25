@@ -1,8 +1,7 @@
 import { useRouter } from 'expo-router';
 import { useEffect } from 'react';
-import useAuth from '@/src/hooks/useAuth';
+import { auth } from '@/src/firebase/config';
 import LoadingScreen from './loadingScreen';
-import ErrorScreen from './errorScreen';
 
 interface UnauthorizedRouteProps {
     children: React.ReactNode;
@@ -10,25 +9,18 @@ interface UnauthorizedRouteProps {
 
 export default function UnauthorizedRoute({ children }: UnauthorizedRouteProps) {
     const router = useRouter();
-    const { user, loading, error } = useAuth();
 
     useEffect(() => {
-        if (!loading && !error && user) {
+        if (auth.currentUser) {
             console.log('User is authenticated, redirecting to home page...');
-            router.replace('/');
+            setTimeout(() => {
+                router.replace('/');
+            }, 1)
         }
-    }, [user, loading, error, router]);
+    }, [auth.currentUser, router])
 
-    if (loading) {
+    if (auth.currentUser) {
         return <LoadingScreen />;
-    }
-
-    if (error) {
-        return <ErrorScreen error={error} />;
-    }
-
-    if (user) {
-        return null;
     }
 
     return <>{children}</>;

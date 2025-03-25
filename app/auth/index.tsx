@@ -18,7 +18,7 @@ export default function Authenticate() {
                 
                 <TouchableOpacity 
                     className="bg-indigo-600 p-6 rounded-xl"
-                    onPress={caretakerLogin}
+                    onPress={() => caretakerLogin()}
                 >
                     <View className="flex-row items-center mb-2">
                         <Ionicons name="person" size={24} color="white" />

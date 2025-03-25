@@ -1,26 +1,16 @@
-import { useState, useEffect } from 'react';
 import { auth } from '@/src/firebase/config';
-import { onAuthStateChanged, signOut, User } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithCredential, signOut } from 'firebase/auth';
 import * as WebBrowser from "expo-web-browser";
 import * as Linking from 'expo-linking';
+import Toast from 'react-native-toast-message';
+import { useRouter } from 'expo-router';
 
 WebBrowser.maybeCompleteAuthSession();
 
 const useAuth = () => {
-    const [user, setUser] = useState<User | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        const subscriber = onAuthStateChanged(auth, currentUser => {
-            setUser(currentUser);
-            setLoading(false);
-        })
-        return subscriber;
-    }, []);
+    const router = useRouter();
 
     const caretakerLogin = async () => {
-        setError(null);
         try {
             const REDIRECT_URI = `https://dan-api.vercel.app/auth/google`;
             const authUrl = new URL("https://accounts.google.com/o/oauth2/v2/auth");
@@ -32,36 +22,58 @@ const useAuth = () => {
             authUrl.searchParams.append("state", "1234_purpleGoogle");
             authUrl.searchParams.append("prompt", "consent");
 
-            const result = await WebBrowser.openAuthSessionAsync(
+            const authResult = await WebBrowser.openAuthSessionAsync(
                 authUrl.toString(),
                 REDIRECT_URI
             );
 
-            if (result.type === 'success') {
-                const params = Linking.parse(result.url)?.queryParams;
-                if (params) {
-                    console.log(params);
+            if (authResult.type === "success") {
+                const params = Linking.parse(authResult.url)?.queryParams;
+                if (params && params.id_token && typeof params.id_token === 'string') {
+                    const credential = GoogleAuthProvider.credential(params.id_token);
+                    const userResult = await signInWithCredential(auth, credential);
+                    auth.updateCurrentUser(userResult.user);
+                    router.replace('/');
+                } else {
+                    Toast.show({
+                        type: 'error',
+                        text1: 'Authentication error',
+                        text2: 'Auth session did not return the correct credentials'
+                    })
                 }
+            } else if (authResult.type !== "cancel") {
+                Toast.show({
+                    type: 'error',
+                    text1: 'Authentication error',
+                    text2: 'Auth session was unsuccessful'
+                })
             }
+
             
         } catch (error) {
-            setError((error as Error).message);
+            Toast.show({
+                type: 'error',
+                text1: 'Authentication error',
+                text2: (error as Error).message
+            })
         }
     };
 
     const logout = async () => {
-        setError(null);
         try {
             await signOut(auth);
+            auth.updateCurrentUser(null);
+            router.replace('/auth/unauthorized');
         } catch (error) {
-            setError((error as Error).message);
+            Toast.show({
+                type: 'error',
+                text1: 'Authentication error',
+                text2: (error as Error).message
+            })
         }
     };
 
     return {
-        user,
-        loading,
-        error,
         logout,
         caretakerLogin
     };

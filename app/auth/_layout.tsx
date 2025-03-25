@@ -1,4 +1,3 @@
-import UnauthorizedRoute from "@/components/unauthorizedRoute";
 import { Stack } from "expo-router";
 
 export default function AuthenticateLayout() {
