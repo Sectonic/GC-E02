@@ -18,7 +18,7 @@ export default function AuthenticateLayout() {
             <Stack.Screen 
                 name="qr" 
                 options={{ 
-                    title: "Scan Caregiver QR Code", 
+                    title: "", 
                     headerBackTitle: "Back", 
                     headerBackVisible: true,
                 }} 

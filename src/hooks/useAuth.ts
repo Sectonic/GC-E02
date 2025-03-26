@@ -4,6 +4,7 @@ import * as WebBrowser from "expo-web-browser";
 import * as Linking from 'expo-linking';
 import Toast from 'react-native-toast-message';
 import { useRouter } from 'expo-router';
+import { Platform } from 'react-native';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -19,7 +20,7 @@ const useAuth = () => {
             authUrl.searchParams.append("redirect_uri", REDIRECT_URI);
             authUrl.searchParams.append("scope", "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile");
             authUrl.searchParams.append("access_type", "offline");
-            authUrl.searchParams.append("state", "1234_purpleGoogle");
+            authUrl.searchParams.append("state", "mobile");
             authUrl.searchParams.append("prompt", "consent");
 
             const authResult = await WebBrowser.openAuthSessionAsync(
