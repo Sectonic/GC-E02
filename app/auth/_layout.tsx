@@ -23,14 +23,6 @@ export default function AuthenticateLayout() {
                     headerBackVisible: true,
                 }} 
             />
-            <Stack.Screen 
-            name="carereceiver" 
-                options={{ 
-                    title: "Pick a Carereceiver", 
-                    headerBackTitle: "Back", 
-                    headerBackVisible: true,
-                }} 
-            />
         </Stack>
     )
 }

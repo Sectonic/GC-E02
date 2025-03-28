@@ -1,64 +1,34 @@
 import { auth } from '@/src/firebase/config';
-import { GoogleAuthProvider, signInWithCredential, signOut } from 'firebase/auth';
+import { signOut } from 'firebase/auth';
 import * as WebBrowser from "expo-web-browser";
-import * as Linking from 'expo-linking';
 import Toast from 'react-native-toast-message';
 import { useRouter } from 'expo-router';
-import { Platform } from 'react-native';
+import performLogin from '../utils/auth';
 
 WebBrowser.maybeCompleteAuthSession();
 
 const useAuth = () => {
     const router = useRouter();
 
-    const caretakerLogin = async () => {
-        try {
-            const REDIRECT_URI = `https://dan-api.vercel.app/auth/google`;
-            const authUrl = new URL("https://accounts.google.com/o/oauth2/v2/auth");
-            authUrl.searchParams.append("response_type", "code");
-            authUrl.searchParams.append("client_id", process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID || "");
-            authUrl.searchParams.append("redirect_uri", REDIRECT_URI);
-            authUrl.searchParams.append("scope", "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile");
-            authUrl.searchParams.append("access_type", "offline");
-            authUrl.searchParams.append("state", "mobile");
-            authUrl.searchParams.append("prompt", "consent");
+    const carereceiverLogin = async (user_uid: string) => await performLogin({
+        providerName: 'oidc.whoop',
+        authUrlBase: 'https://api.prod.whoop.com/oauth/oauth2/auth',
+        redirectUri: `${process.env.EXPO_PUBLIC_API_BASE}/auth/whoop`,
+        clientId: process.env.EXPO_PUBLIC_WHOOP_CLIENT_ID || '',
+        scope: 'offline read:recovery read:cycles read:sleep read:workout read:profile read:body_measurement',
+        additionalParams: { state: user_uid },
+        redirectHome: () => router.replace('/')
+    });
 
-            const authResult = await WebBrowser.openAuthSessionAsync(
-                authUrl.toString(),
-                REDIRECT_URI
-            );
-
-            if (authResult.type === "success") {
-                const params = Linking.parse(authResult.url)?.queryParams;
-                if (params && params.id_token && typeof params.id_token === 'string') {
-                    const credential = GoogleAuthProvider.credential(params.id_token);
-                    const userResult = await signInWithCredential(auth, credential);
-                    auth.updateCurrentUser(userResult.user);
-                    router.replace('/');
-                } else {
-                    Toast.show({
-                        type: 'error',
-                        text1: 'Authentication error',
-                        text2: 'Auth session did not return the correct credentials'
-                    })
-                }
-            } else if (authResult.type !== "cancel") {
-                Toast.show({
-                    type: 'error',
-                    text1: 'Authentication error',
-                    text2: 'Auth session was unsuccessful'
-                })
-            }
-
-            
-        } catch (error) {
-            Toast.show({
-                type: 'error',
-                text1: 'Authentication error',
-                text2: (error as Error).message
-            })
-        }
-    };
+    const caretakerLogin = async () => await performLogin({
+        providerName: 'google.com',
+        authUrlBase: 'https://accounts.google.com/o/oauth2/v2/auth',
+        redirectUri: `${process.env.EXPO_PUBLIC_API_BASE}/auth/google`,
+        clientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID || '',
+        scope: 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
+        additionalParams: { access_type: 'offline', state: 'mobile', prompt: 'consent' },
+        redirectHome: () => router.replace('/')
+    });
 
     const logout = async () => {
         try {
@@ -76,7 +46,8 @@ const useAuth = () => {
 
     return {
         logout,
-        caretakerLogin
+        caretakerLogin,
+        carereceiverLogin
     };
 };
 
