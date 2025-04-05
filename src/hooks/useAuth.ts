@@ -1,14 +1,13 @@
 import { auth } from '@/src/firebase/config';
 import { signOut } from 'firebase/auth';
-import * as WebBrowser from "expo-web-browser";
 import Toast from 'react-native-toast-message';
 import { useRouter } from 'expo-router';
 import performLogin from '../utils/auth';
 
-WebBrowser.maybeCompleteAuthSession();
-
 const useAuth = () => {
     const router = useRouter();
+
+    const isCaretaker = () => auth.currentUser?.providerData[0].providerId === 'google.com';
 
     const carereceiverLogin = async (user_uid: string) => await performLogin({
         providerName: 'oidc.whoop',
@@ -47,7 +46,8 @@ const useAuth = () => {
     return {
         logout,
         caretakerLogin,
-        carereceiverLogin
+        carereceiverLogin,
+        isCaretaker
     };
 };
 

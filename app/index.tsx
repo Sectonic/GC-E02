@@ -1,16 +1,18 @@
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Image, Text, TouchableOpacity, View, TouchableWithoutFeedback, Animated } from 'react-native';
+import { Text, TouchableOpacity, View, TouchableWithoutFeedback, Animated } from 'react-native';
 import AuthorizedRoute from '@/components/authorizedRoute';
 import { auth } from '@/src/firebase/config';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useState } from 'react';
 import useAuth from '@/src/hooks/useAuth';
 import { useRouter } from 'expo-router';
+import CaretakerHome from '@/components/caretaker/home';
+import CarereceiverHome from '@/components/carereceiver/home';
 
 export default function HomeScreen() {
-  const { logout } = useAuth();
+  const { logout, isCaretaker } = useAuth();
   const router = useRouter();
-  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
   const dropdownOpacity = useState(new Animated.Value(0))[0];
 
   const toggleDropdown = () => {
@@ -41,18 +43,14 @@ export default function HomeScreen() {
       <TouchableWithoutFeedback onPress={handleOutsidePress}>
         <SafeAreaView className="flex-1 px-5 h-full bg-slate-900">
           {auth.currentUser && (
-            <View className="flex flex-row justify-between items-center">
-              <Text className="text-3xl font-semibold text-white">
-                Welcome, {auth.currentUser.displayName?.split(' ')[0]}
-              </Text>
-              {auth.currentUser.photoURL && (
+            <>
+              <View className="flex flex-row justify-between items-center">
+                <Text className="text-3xl font-semibold text-white">
+                  Welcome, {auth.currentUser.displayName?.split(' ')[0]}
+                </Text>
                 <View className="relative">
                   <TouchableOpacity onPress={toggleDropdown}>
-                    <Image
-                      source={{ uri: auth.currentUser.photoURL }}
-                      alt="Profile"
-                      className="w-12 h-12 rounded-full"
-                    />
+                    <MaterialIcons name="menu" size={48} color="white" />
                   </TouchableOpacity>
                   {dropdownVisible && (
                     <Animated.View
@@ -60,7 +58,7 @@ export default function HomeScreen() {
                         opacity: dropdownOpacity,
                         transform: [{ scale: dropdownOpacity }],
                       }}
-                      className="absolute w-40 -bottom-[90px] right-0 rounded-lg bg-slate-800 shadow-lg"
+                      className="z-10 absolute w-40 -bottom-[90px] right-0 rounded-lg bg-slate-800 shadow-lg"
                     >
                       <TouchableOpacity 
                         className="p-4 flex flex-row justify-start items-center gap-2"
@@ -85,8 +83,9 @@ export default function HomeScreen() {
                     </Animated.View>
                   )}
                 </View>
-              )}
-            </View>
+              </View>
+              {isCaretaker() ? <CaretakerHome /> : <CarereceiverHome />}
+            </>
           )}
         </SafeAreaView>
       </TouchableWithoutFeedback>

@@ -3,6 +3,7 @@ import { GoogleAuthProvider, signInWithCredential, signInWithEmailAndPassword } 
 import * as WebBrowser from "expo-web-browser";
 import * as Linking from 'expo-linking';
 import Toast from 'react-native-toast-message';
+import { Platform } from 'react-native';
 
 interface LoginConfig {
     providerName: "google.com" | "oidc.whoop";
@@ -21,6 +22,10 @@ const showErrorToast = (title: string, message: string) => {
         text2: message
     });
 };
+
+if (Platform.OS === 'web') {
+    WebBrowser.maybeCompleteAuthSession();
+}
 
 const performLogin = async (config: LoginConfig) => {
 
@@ -78,8 +83,11 @@ const performLogin = async (config: LoginConfig) => {
             showErrorToast('Authentication error', 'Auth session was unsuccessful');
         }
     } catch (error) {
-        console.log(error);
-        showErrorToast('Authentication error', (error as Error).message);
+        const errorMessage = (error as Error).message;
+        if (!errorMessage.includes("Another web browser is already open")) {
+            console.log(error);
+            showErrorToast('Authentication error', errorMessage);
+        }
     }
 };
 
