@@ -8,6 +8,7 @@ export function useFirestoreSnapshot<T = DocumentData>(
   constraints: QueryConstraint[] = [],
   dependencies: any[] = []
 ) {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [data, setData] = useState<T[]>([]);
 
   useEffect(() => {
@@ -28,6 +29,7 @@ export function useFirestoreSnapshot<T = DocumentData>(
       (snapshot) => {
         const documents = snapshot.docs.map(doc => doc.data() as T);
         setData(documents);
+        setIsLoading(false);
       },
       (error) => {
         Toast.show({
@@ -42,5 +44,5 @@ export function useFirestoreSnapshot<T = DocumentData>(
     return () => unsubscribe();
   }, [...dependencies]);
 
-  return { data };
+  return { data, isLoading };
 }

@@ -1,12 +1,18 @@
 import { healthDataSeries, walkingPathData } from '../utils/carereceiverData';
 import { useState } from 'react';
 import { addDataToCollection, removeCollections } from '../utils/actions';
+import { useRouter } from 'expo-router';
 
 export default function useActions() {
+    const router = useRouter();
     const [isProcessing, setIsProcessing] = useState<boolean>(false);
+    
 
     const agitationAction = async () => {
         setIsProcessing(true);
+        setTimeout(() => {
+            router.push('/music');
+        }, 20000);
         await addDataToCollection(
             'agitation_data',
             healthDataSeries
@@ -16,9 +22,13 @@ export default function useActions() {
 
     const wonderingAction = async () => {
         setIsProcessing(true);
+        setTimeout(() => {
+            router.push('/music');
+        }, 17000);
         await addDataToCollection(
-            'wondering_data',
-            walkingPathData
+            'wandering_data',
+            walkingPathData,
+            500
         )
         setIsProcessing(false);
     };
@@ -27,7 +37,7 @@ export default function useActions() {
         setIsProcessing(true);
         await removeCollections(
             'agitation_data',
-            'wondering_data'
+            'wandering_data'
         )
         setIsProcessing(false);
     }
@@ -36,6 +46,6 @@ export default function useActions() {
         isProcessing, 
         agitationAction, 
         wonderingAction, 
-        resetAction 
+        resetAction
     };
 }

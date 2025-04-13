@@ -34,18 +34,19 @@ export default function RootLayout() {
       >
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="auth" options={{ headerShown: false }} />
+        <Stack.Screen name="music" options={{ headerShown: false }} />
         <Stack.Screen name="settings" options={{ title: "Settings" }} />
       </Stack>
       <Toast 
-      topOffset={65} 
-      config={{
-        error: (props) => <ErrorToast 
-        {...props}
-        style={{ backgroundColor: '#020617', borderLeftColor: '#e11d48' }}
-        text1Style={{ color: '#fff', fontSize: 17 }}
-        text2Style={{ color: '#fff', fontSize: 13 }}
-        />
-      }} 
+        topOffset={65} 
+        config={{
+          error: (props) => <ErrorToast 
+          {...props}
+          style={{ backgroundColor: '#020617', borderLeftColor: '#e11d48' }}
+          text1Style={{ color: '#fff', fontSize: 17 }}
+          text2Style={{ color: '#fff', fontSize: 13 }}
+          />
+        }} 
       />
     </>
   );

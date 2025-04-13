@@ -4,6 +4,7 @@ import { collection, deleteDoc, getDocs, doc, getDoc, addDoc } from 'firebase/fi
 export const addDataToCollection = async (
     collectionPath: string, 
     dataPoints: any[], 
+    timeBetween: number = 1000,
 ): Promise<void> => {
     const currentUser = auth.currentUser;
     
@@ -12,7 +13,7 @@ export const addDataToCollection = async (
         return;
     }
 
-    if (currentUser?.providerId === 'google.com') {
+    if (auth.currentUser?.providerData[0].providerId === 'google.com') {
         console.error("User is a caretaker");
         return;
     }
@@ -23,7 +24,7 @@ export const addDataToCollection = async (
     try {
         for (let dataPoint of dataPoints) {
             await addDoc(collectionRef, dataPoint);
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            await new Promise(resolve => setTimeout(resolve, timeBetween));
         }
         console.log(`successfully created records for ${collectionPath}`);
     } catch (error) {
@@ -39,7 +40,7 @@ export const removeCollections = async (...collectionPaths: string[]): Promise<v
         return;
     }
 
-    if (currentUser?.providerId !== 'google.com') {
+    if (auth.currentUser?.providerData[0].providerId !== 'google.com') {
         console.error("User is a carereceiver");
         return;
     }
