@@ -3,7 +3,7 @@ import { Text, TouchableOpacity, View, TouchableWithoutFeedback, Animated } from
 import AuthorizedRoute from '@/components/authorizedRoute';
 import { auth } from '@/src/firebase/config';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useAuth from '@/src/hooks/useAuth';
 import { useRouter } from 'expo-router';
 import CaretakerHome from '@/components/caretaker/home';

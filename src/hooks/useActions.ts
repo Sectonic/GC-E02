@@ -12,7 +12,7 @@ export default function useActions() {
         setIsProcessing(true);
         setTimeout(() => {
             router.push('/music');
-        }, 20000);
+        }, 17500);
         await addDataToCollection(
             'agitation_data',
             healthDataSeries
