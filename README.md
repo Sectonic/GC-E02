@@ -35,7 +35,7 @@
 | Backend  | Python Flask, Firebase Firestore, Firebase Admin SDK        |
 | Auth     | Google OAuth 2.0, WHOOP OAuth, Expo AuthSession             |
 | Media    | Spotify API, Spotify Playback SDK (WIP), Expo AV            |
-| Hosting  | Firebase Functions (WIP), Google Cloud Platform         |
+| Hosting  | Firebase Functions (WIP), Google Cloud Platform, Vercel         |
 
 ## 🛤️ Roadmap
 
