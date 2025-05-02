@@ -46,7 +46,7 @@ export default function HomeScreen() {
             <>
               <View className="flex flex-row justify-between items-center">
                 <Text className="text-3xl font-semibold text-white">
-                  Welcome, {auth.currentUser.displayName?.split(' ')[0]}
+                  Welcome, Caretaker
                 </Text>
                 <View className="relative">
                   <TouchableOpacity onPress={toggleDropdown}>

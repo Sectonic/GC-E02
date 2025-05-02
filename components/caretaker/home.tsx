@@ -259,7 +259,7 @@ export default function CaretakerHome() {
                             </TouchableOpacity>
                         </View>
                         <TouchableOpacity className="mt-2 w-full py-3 rounded-full bg-indigo-600">
-                            <Text className="text-white font-semibold text-xl text-center">Call Zaydan</Text>
+                            <Text className="text-white font-semibold text-xl text-center">Call Patient</Text>
                         </TouchableOpacity>
                     </Animated.View>
                 </Animated.View>

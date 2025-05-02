@@ -6,8 +6,8 @@ export default function CaretakerSettings() {
     
     return (
         <View className="p-12">
-            <Text className="mt-3 text-xl text-white font-semibold text-center">Caregiver QR Code</Text>
-            <Text className="text-gray-400 text-center mb-4">Have care receivers scan this signing in to connect to your account</Text>
+            <Text className="mt-3 text-xl text-white font-semibold text-center">Caretaker QR Code</Text>
+            <Text className="text-gray-400 text-center mb-4">Have patients scan this signing in to connect to your account</Text>
             <View className="mx-auto">
                 <QRCode                             
                     size={200}

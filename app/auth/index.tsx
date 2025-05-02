@@ -39,7 +39,7 @@ export default function Authenticate() {
                 >
                     <View className="flex-row items-center mb-2">
                         <Ionicons name="medkit" size={24} color="white" />
-                        <Text className="text-xl font-medium text-white ml-3">For Carereceivers</Text>
+                        <Text className="text-xl font-medium text-white ml-3">For Patients</Text>
                     </View>
                     <Text className="text-gray-300">I'm receiving care for my condition</Text>
                 </TouchableOpacity>

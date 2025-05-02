@@ -101,8 +101,8 @@ export default function QR() {
                         </View>
                     </View>
                     <View className="absolute left-1/2 top-[30%] -translate-x-1/2">
-                        <Text className="text-white text-xl font-semibold text-center">Scan Caregiver QR Code</Text>
-                        <Text className="text-gray-400 text-center">Code is found in the caregiver's settings</Text>
+                        <Text className="text-white text-xl font-semibold text-center">Scan Caretaker QR Code</Text>
+                        <Text className="text-gray-400 text-center">Code is found in the caretaker's settings</Text>
                     </View>
                 </CameraView>
             )}
