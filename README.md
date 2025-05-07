@@ -23,7 +23,7 @@
    <img src="public/screenshots/alert.png" alt="Agitation Alert" width="250px"/>
    <img src="public/screenshots/music.png" alt="Music Playback Screen" width="250px"/>
    <br/><br/>
-   <img src="public/screenshots/dashboard.png" alt="Caretaker Dashboard" width="250px"/>
+   <img src="public/screenshots/dashboard.png" alt="Caregiver Dashboard" width="250px"/>
    <img src="public/screenshots/qr.png" alt="QR Code Page" width="250px"/>
 </div>
 
@@ -63,7 +63,7 @@
 
 ## 🙏 Acknowledgments
 
-- [**WHOOP**](https://www.whoop.com) — for providing open access to biometric health data and webhook infrastructure  
-- [**Google Cloud**](https://cloud.google.com) — for enabling secure OAuth, Firestore, and scalable backend services  
-- [**Spotify**](https://developer.spotify.com) — for supporting music playback and therapeutic integrations  
-- [**Firebase**](https://firebase.google.com) — for seamless authentication and real-time data sync  
+- [**WHOOP**](https://www.whoop.com) — for providing open access to biometric health data and webhook infrastructure
+- [**Google Cloud**](https://cloud.google.com) — for enabling secure OAuth, Firestore, and scalable backend services
+- [**Spotify**](https://developer.spotify.com) — for supporting music playback and therapeutic integrations
+- [**Firebase**](https://firebase.google.com) — for seamless authentication and real-time data sync

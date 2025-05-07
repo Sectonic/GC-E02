@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 import '@/global.css';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import React from 'react';
 
 SplashScreen.preventAutoHideAsync();
 

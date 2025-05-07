@@ -3,14 +3,15 @@ import { Text, TouchableOpacity, View, TouchableWithoutFeedback, Animated } from
 import AuthorizedRoute from '@/components/authorizedRoute';
 import { auth } from '@/src/firebase/config';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useAuth from '@/src/hooks/useAuth';
 import { useRouter } from 'expo-router';
-import CaretakerHome from '@/components/caretaker/home';
-import CarereceiverHome from '@/components/carereceiver/home';
+import CaregiverHome from '@/components/caregiver/home';
+import PatientHome from '@/components/patient/home';
+import React from 'react';
 
 export default function HomeScreen() {
-  const { logout, isCaretaker } = useAuth();
+  const { logout, isCaregiver } = useAuth();
   const router = useRouter();
   const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
   const dropdownOpacity = useState(new Animated.Value(0))[0];
@@ -46,7 +47,7 @@ export default function HomeScreen() {
             <>
               <View className="flex flex-row justify-between items-center">
                 <Text className="text-3xl font-semibold text-white">
-                  Welcome, Caretaker
+                  Welcome, {auth.currentUser.displayName?.split(" ")[0]}
                 </Text>
                 <View className="relative">
                   <TouchableOpacity onPress={toggleDropdown}>
@@ -84,7 +85,7 @@ export default function HomeScreen() {
                   )}
                 </View>
               </View>
-              {isCaretaker() ? <CaretakerHome /> : <CarereceiverHome />}
+              {isCaregiver() ? <CaregiverHome /> : <PatientHome />}
             </>
           )}
         </SafeAreaView>

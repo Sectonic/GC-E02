@@ -1,7 +1,7 @@
 import useActions from "@/src/hooks/useActions";
 import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 
-export default function CarereceiverHome() {
+export default function PatientHome() {
     const {
         isProcessing,
         agitationAction,
@@ -18,7 +18,7 @@ export default function CarereceiverHome() {
             )}
             <View className="flex-row items-center">
                 <View className="flex-1 h-[1px] bg-gray-400" />
-                <Text className="mx-4 text-white">Carereceiver Actions</Text>
+                <Text className="mx-4 text-white">Patient Actions</Text>
                 <View className="flex-1 h-[1px] bg-gray-400" />
             </View>
             <View className="mt-6 w-full flex flex-row flex-wrap gap-4">

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getReceiverUid } from "../firebase/helpers";
+import { getPatientUids } from "../firebase/firestore";
 import { auth } from "../firebase/config";
 
 export const useReceiver = () => {
@@ -9,8 +9,8 @@ export const useReceiver = () => {
     useEffect(() => {
         if (!auth.currentUser) return;
         const getData = async () => {
-            const receiver_uid = await getReceiverUid(auth.currentUser?.uid as string);
-            setReceiverUid(receiver_uid);
+            const receiver_uid = await getPatientUids(auth.currentUser?.uid as string);
+            setReceiverUid(receiver_uid[0]);
             setIsLoading(false);
         }
         getData();

@@ -1,53 +1,76 @@
 import { auth } from '@/src/firebase/config';
-import { signOut } from 'firebase/auth';
-import Toast from 'react-native-toast-message';
+import { signInWithCustomToken, signOut } from 'firebase/auth';
 import { useRouter } from 'expo-router';
-import performLogin from '../utils/auth';
+import performOAuth from '../utils/oauth';
+import * as Linking from 'expo-linking';
+import { useState } from 'react';
+import APIHTTPClient from '../httpClient/apiHTTPClient';
+import withToastError from '../utils/withToastError';
 
 const useAuth = () => {
     const router = useRouter();
+    const [isLoading, setLoading] = useState<boolean>(false);
 
-    const isCaretaker = () => auth.currentUser?.providerData[0].providerId === 'google.com';
+    const isCaregiver = () => auth.currentUser?.email !== null;
 
-    const carereceiverLogin = async (user_uid: string) => await performLogin({
-        providerName: 'oidc.whoop',
-        authUrlBase: 'https://api.prod.whoop.com/oauth/oauth2/auth',
-        redirectUri: `${process.env.EXPO_PUBLIC_API_BASE}/auth/whoop`,
-        clientId: process.env.EXPO_PUBLIC_WHOOP_CLIENT_ID || '',
-        scope: 'offline read:recovery read:cycles read:sleep read:workout read:profile read:body_measurement',
-        additionalParams: { state: user_uid },
-        redirectHome: () => router.replace('/')
-    });
+    const patientCreate = withToastError(async (name: string, caregiverUid: string) => {
+        setLoading(true);
+        try {
+            const customToken = await APIHTTPClient.createPatient(name, caregiverUid);
+            const userResult = await signInWithCustomToken(auth, customToken);
+            await auth.updateCurrentUser(userResult.user);
+            router.push('/');
+        } finally {
+            setLoading(false);
+        }
+    }, 'Patient Creation');
 
-    const caretakerLogin = async () => await performLogin({
-        providerName: 'google.com',
-        authUrlBase: 'https://accounts.google.com/o/oauth2/v2/auth',
-        redirectUri: `${process.env.EXPO_PUBLIC_API_BASE}/auth/google`,
-        clientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID || '',
-        scope: 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
-        additionalParams: { access_type: 'offline', state: 'mobile', prompt: 'consent' },
-        redirectHome: () => router.replace('/')
-    });
+    const patientLogin = withToastError(async (userUid: string, caregiverUid: string) => {
+        setLoading(true);
+        try {
+            const customToken = await APIHTTPClient.loginPatient(userUid, caregiverUid);
+            const userResult = await signInWithCustomToken(auth, customToken);
+            await auth.updateCurrentUser(userResult.user);
+            router.push('/');
+        } finally {
+            setLoading(false);
+        }
+    }, 'Patient Login');
 
-    const logout = async () => {
+    const caregiverLogin = withToastError(async () => {
+        setLoading(true);
+        try {
+            await performOAuth({
+                providerName: 'google.com',
+                authUrlBase: 'https://accounts.google.com/o/oauth2/v2/auth',
+                redirectUri: `${process.env.EXPO_PUBLIC_API_BASE}/auth/google`,
+                clientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID || '',
+                scope: 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
+                additionalParams: { access_type: 'offline', state: Linking.createURL(''), prompt: 'consent' },
+                redirectHome: () => router.replace('/')
+            });
+        } finally {
+            setLoading(false);
+        }
+    }, 'Caregiver Login');
+
+    const logout = withToastError(async () => {
+        setLoading(true);
         try {
             await signOut(auth);
-            auth.updateCurrentUser(null);
             router.replace('/auth/unauthorized');
-        } catch (error) {
-            Toast.show({
-                type: 'error',
-                text1: 'Authentication error',
-                text2: (error as Error).message
-            })
+        } finally {
+            setLoading(false);
         }
-    };
+    }, 'Logout');
 
     return {
         logout,
-        caretakerLogin,
-        carereceiverLogin,
-        isCaretaker
+        caregiverLogin,
+        patientLogin,
+        patientCreate,
+        isCaregiver,
+        isLoading
     };
 };
 

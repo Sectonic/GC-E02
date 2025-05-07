@@ -1,5 +1,6 @@
+import React from 'react';
 import { useReceiver } from "@/src/hooks/useReceiver";
-import { boundaryData, FireStoreHealthDataPoint, GeoLocation, isPointInPolygon } from "@/src/utils/carereceiverData";
+import { boundaryData, FireStoreHealthDataPoint, GeoLocation, isPointInPolygon } from "@/src/utils/patientData";
 import { orderBy } from "firebase/firestore";
 import { ActivityIndicator, Animated, Dimensions, Platform, Text, TouchableOpacity, View } from "react-native";
 import LoadingScreen from "../loadingScreen";
@@ -9,8 +10,14 @@ import { CartesianChart, Line, PointsArray } from "victory-native";
 import useActions from "@/src/hooks/useActions";
 import MapView, { LatLng, Marker, Polygon, Polyline, PROVIDER_DEFAULT } from 'react-native-maps';
 import Feather from '@expo/vector-icons/Feather';
+import { configureReanimatedLogger, ReanimatedLogLevel } from 'react-native-reanimated';
 
-export default function CaretakerHome() {
+configureReanimatedLogger({
+    level: ReanimatedLogLevel.warn,
+    strict: false,
+});
+
+export default function CaregiverHome() {
     const { resetAction, isProcessing } = useActions();
     const [windowDomain, setWindowDomain] = useState<[number, number] | null>(null);
     const [alert, setAlert] = useState<boolean>(false);

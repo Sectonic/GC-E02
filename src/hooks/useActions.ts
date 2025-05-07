@@ -1,4 +1,4 @@
-import { healthDataSeries, walkingPathData } from '../utils/carereceiverData';
+import { healthDataSeries, walkingPathData } from '../utils/patientData';
 import { useState } from 'react';
 import { addDataToCollection, removeCollections } from '../utils/actions';
 import { useRouter } from 'expo-router';

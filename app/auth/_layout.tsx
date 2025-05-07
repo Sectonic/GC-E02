@@ -7,6 +7,7 @@ export default function AuthenticateLayout() {
             headerTintColor: "#ffffff",
         }}>
             <Stack.Screen name="unauthorized" options={{ headerShown: false }} />
+            <Stack.Screen name="patient" options={{ headerShown: false }} />
             <Stack.Screen 
                 name="index" 
                 options={{ 

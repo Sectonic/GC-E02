@@ -5,7 +5,7 @@ import { useRouter } from "expo-router";
 import useAuth from "@/src/hooks/useAuth";
 
 export default function Authenticate() {
-    const { caretakerLogin } = useAuth();
+    const { caregiverLogin } = useAuth();
     const router = useRouter();
 
     return (
@@ -18,7 +18,7 @@ export default function Authenticate() {
                 
                 <TouchableOpacity 
                     className="bg-indigo-600 p-6 rounded-xl"
-                    onPress={() => caretakerLogin()}
+                    onPress={() => caregiverLogin()}
                 >
                     <View className="flex-row items-center mb-2">
                         <Ionicons name="person" size={24} color="white" />

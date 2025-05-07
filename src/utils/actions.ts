@@ -14,7 +14,7 @@ export const addDataToCollection = async (
     }
 
     if (auth.currentUser?.providerData[0].providerId === 'google.com') {
-        console.error("User is a caretaker");
+        console.error("User is a caregiver");
         return;
     }
     
@@ -41,7 +41,7 @@ export const removeCollections = async (...collectionPaths: string[]): Promise<v
     }
 
     if (auth.currentUser?.providerData[0].providerId !== 'google.com') {
-        console.error("User is a carereceiver");
+        console.error("User is a patient");
         return;
     }
 
@@ -51,7 +51,7 @@ export const removeCollections = async (...collectionPaths: string[]): Promise<v
         const pairingDoc = await getDoc(pairingRef);
         
         if (!pairingDoc.exists()) {
-            console.error("No pairing found for this caretaker");
+            console.error("No pairing found for this caregiver");
             return;
         }
         

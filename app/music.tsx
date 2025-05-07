@@ -1,3 +1,4 @@
+import React from 'react';
 import AuthorizedRoute from "@/components/authorizedRoute";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ActivityIndicator, Image, Text, TouchableOpacity, View } from "react-native"; 

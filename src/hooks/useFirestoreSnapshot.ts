@@ -4,7 +4,7 @@ import { db } from '@/src/firebase/config';
 import Toast from 'react-native-toast-message';
 
 export function useFirestoreSnapshot<T = DocumentData>(
-  path: string | string[],
+  path: string[],
   constraints: QueryConstraint[] = [],
   dependencies: any[] = []
 ) {
@@ -14,13 +14,7 @@ export function useFirestoreSnapshot<T = DocumentData>(
   useEffect(() => {
     if (dependencies.some(value => !value)) return;
 
-    let collectionPath: string;
-    if (Array.isArray(path)) {
-      collectionPath = path.join('/');
-    } else {
-      collectionPath = path;
-    }
-    
+    const collectionPath = path.join('/');
     const collectionRef = collection(db, collectionPath);
     const queryRef = query(collectionRef, ...constraints);
 

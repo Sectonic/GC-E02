@@ -2,6 +2,7 @@ import { useRouter } from 'expo-router';
 import { useEffect } from 'react';
 import { auth } from '@/src/firebase/config';
 import LoadingScreen from './loadingScreen';
+import React from 'react';
 
 interface AuthorizedRouteProps {
     children: React.ReactNode;
