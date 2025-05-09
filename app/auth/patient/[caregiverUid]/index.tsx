@@ -4,7 +4,7 @@ import { useRouter } from "expo-router";
 import { TouchableOpacity, ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import PatientLoginButton from "@/components/patient/loginButton";
-import { useCaregiver } from "@/components/CaregiverContext";
+import { useCaregiver } from "@/components/caregiverContext";
 
 export default function Patients() {
     const router = useRouter();

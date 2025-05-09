@@ -24,6 +24,22 @@ export default function AuthenticateLayout() {
                     headerBackVisible: true,
                 }} 
             />
+            <Stack.Screen 
+                name="patient/[caregiverUid]/index" 
+                options={{ 
+                    title: "Select Patient", 
+                    headerBackTitle: "Back", 
+                    headerBackVisible: true,
+                }} 
+            />
+            <Stack.Screen 
+                name="patient/[caregiverUid]/create" 
+                options={{ 
+                    title: "Create Patient", 
+                    headerBackTitle: "Back", 
+                    headerBackVisible: true,
+                }} 
+            />
         </Stack>
     )
 }

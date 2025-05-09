@@ -3,7 +3,7 @@ import { Text, TouchableOpacity, View, TouchableWithoutFeedback, Animated } from
 import AuthorizedRoute from '@/components/authorizedRoute';
 import { auth } from '@/src/firebase/config';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useAuth from '@/src/hooks/useAuth';
 import { useRouter } from 'expo-router';
 import CaregiverHome from '@/components/caregiver/home';
@@ -49,41 +49,43 @@ export default function HomeScreen() {
                 <Text className="text-3xl font-semibold text-white">
                   Welcome, {auth.currentUser.displayName?.split(" ")[0]}
                 </Text>
-                <View className="relative">
-                  <TouchableOpacity onPress={toggleDropdown}>
-                    <MaterialIcons name="menu" size={48} color="white" />
-                  </TouchableOpacity>
-                  {dropdownVisible && (
-                    <Animated.View
-                      style={{
-                        opacity: dropdownOpacity,
-                        transform: [{ scale: dropdownOpacity }],
-                      }}
-                      className="z-10 absolute w-40 -bottom-[90px] right-0 rounded-lg bg-slate-800 shadow-lg"
-                    >
-                      <TouchableOpacity 
-                        className="p-4 flex flex-row justify-start items-center gap-2"
-                        onPress={() => {
-                          toggleDropdown();
-                          router.push('/settings');
+                {isCaregiver() && (
+                  <View className="relative">
+                    <TouchableOpacity onPress={toggleDropdown}>
+                      <MaterialIcons name="menu" size={48} color="white" />
+                    </TouchableOpacity>
+                    {dropdownVisible && (
+                      <Animated.View
+                        style={{
+                          opacity: dropdownOpacity,
+                          transform: [{ scale: dropdownOpacity }],
                         }}
+                        className="z-10 absolute w-40 -bottom-[90px] right-0 rounded-lg bg-slate-800 shadow-lg"
                       >
-                        <MaterialIcons name="settings" size={16} color="white" />
-                        <Text className="text-white">Settings</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity 
-                        className="-mt-2 p-4 flex flex-row justify-start items-center gap-2"
-                        onPress={() => {
-                          toggleDropdown();
-                          logout();
-                        }}
-                      >
-                        <MaterialIcons name="logout" size={16} color="white" />
-                        <Text className="text-white">Logout</Text>
-                      </TouchableOpacity>
-                    </Animated.View>
-                  )}
-                </View>
+                        <TouchableOpacity 
+                          className="p-4 flex flex-row justify-start items-center gap-2"
+                          onPress={() => {
+                            toggleDropdown();
+                            router.push('/settings');
+                          }}
+                        >
+                          <MaterialIcons name="settings" size={16} color="white" />
+                          <Text className="text-white">Settings</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity 
+                          className="-mt-2 p-4 flex flex-row justify-start items-center gap-2"
+                          onPress={() => {
+                            toggleDropdown();
+                            logout();
+                          }}
+                        >
+                          <MaterialIcons name="logout" size={16} color="white" />
+                          <Text className="text-white">Logout</Text>
+                        </TouchableOpacity>
+                      </Animated.View>
+                    )}
+                  </View>
+                )}
               </View>
               {isCaregiver() ? <CaregiverHome /> : <PatientHome />}
             </>

@@ -1,6 +1,6 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import PatientCreateForm from "@/components/patient/createForm";
-import { useCaregiver } from "@/components/CaregiverContext";
+import { useCaregiver } from "@/components/caregiverContext";
 
 export default function CreatePatient() {
     const { patients, caregiverUid } = useCaregiver();

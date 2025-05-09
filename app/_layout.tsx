@@ -36,7 +36,9 @@ export default function RootLayout() {
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="auth" options={{ headerShown: false }} />
         <Stack.Screen name="music" options={{ headerShown: false }} />
-        <Stack.Screen name="settings" options={{ title: "Settings" }} />
+        <Stack.Screen name="settings/index" options={{ headerShown: true, title: "Settings" }} />
+        <Stack.Screen name="settings/patient/index" options={{ headerShown: true, title: "Your Patients" }} />
+        <Stack.Screen name="settings/patient/[patientUid]" options={{ headerShown: true, title: "Loading..." }} />
       </Stack>
       <Toast 
         topOffset={65} 

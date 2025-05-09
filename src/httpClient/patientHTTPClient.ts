@@ -1,25 +1,23 @@
 import { PatientInfo } from "../types/patientInfo";
+import { Track } from "../types/track";
 
-export default class APIHTTPClient {
-    public static async getIfCaregiver(uid: string): Promise<boolean> {
+export default class PatientHTTPClient {
+    public static async getPatientSettings(uid: string): Promise<{ patient: PatientInfo, tracks: Track[] }> {
+        if (!uid) {
+            throw new Error('Caregiver UID is required.');
+        }
         const response = await fetch(`${process.env.EXPO_PUBLIC_API_BASE}/user/${uid}`);
         const data = await response.json();
         if (!response.ok) {
             throw new Error(data.error || 'Failed to retrieve caregiver information.');
         }
-        return data.contains;
-    }
-
-    public static async getPatientsOfCaregiver(uid: string): Promise<PatientInfo[]> {
-        const response = await fetch(`${process.env.EXPO_PUBLIC_API_BASE}/user/${uid}/patients`);
-        const data = await response.json();
-        if (!response.ok) {
-            throw new Error(data.error || 'Failed to retrieve patients.');
-        }
-        return data.patients;
+        return data;
     }
 
     public static async createPatient(name: string, caregiverUid: string): Promise<string> {
+        if (!name || !caregiverUid) {
+            throw new Error('Name and caregiver UID are required.');
+        }
         const options = {
             method: 'POST',
             headers: {
@@ -36,6 +34,9 @@ export default class APIHTTPClient {
     }
 
     public static async loginPatient(patientUid: string, caregiverUid: string): Promise<string> {
+        if (!patientUid || !caregiverUid) {
+            throw new Error('Patient UID and caregiver UID are required.');
+        }
         const options = {
             method: 'POST',
             headers: {

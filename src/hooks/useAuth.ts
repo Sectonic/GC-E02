@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router';
 import performOAuth from '../utils/oauth';
 import * as Linking from 'expo-linking';
 import { useState } from 'react';
-import APIHTTPClient from '../httpClient/apiHTTPClient';
+import PatientHTTPClient from '../httpClient/patientHTTPClient';
 import withToastError from '../utils/withToastError';
 
 const useAuth = () => {
@@ -16,7 +16,7 @@ const useAuth = () => {
     const patientCreate = withToastError(async (name: string, caregiverUid: string) => {
         setLoading(true);
         try {
-            const customToken = await APIHTTPClient.createPatient(name, caregiverUid);
+            const customToken = await PatientHTTPClient.createPatient(name, caregiverUid);
             const userResult = await signInWithCustomToken(auth, customToken);
             await auth.updateCurrentUser(userResult.user);
             router.push('/');
@@ -28,7 +28,7 @@ const useAuth = () => {
     const patientLogin = withToastError(async (userUid: string, caregiverUid: string) => {
         setLoading(true);
         try {
-            const customToken = await APIHTTPClient.loginPatient(userUid, caregiverUid);
+            const customToken = await PatientHTTPClient.loginPatient(userUid, caregiverUid);
             const userResult = await signInWithCustomToken(auth, customToken);
             await auth.updateCurrentUser(userResult.user);
             router.push('/');

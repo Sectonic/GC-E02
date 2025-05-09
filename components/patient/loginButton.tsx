@@ -5,7 +5,7 @@ import { PatientInfo } from "@/src/types/patientInfo";
 interface PatientLoginButtonProps {
     patient: PatientInfo;
     caregiverUid: string;
-}
+} 
 
 const PatientLoginButton = ({ patient, caregiverUid }: PatientLoginButtonProps) => {
     const { isLoading, patientLogin } = useAuth();
