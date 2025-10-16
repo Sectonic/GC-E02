@@ -1,4 +1,4 @@
-# Grand Challenges Project
+# GC E02
 
 > “We want caregivers to feel safe going to get groceries or do their laundry without fear that something might happen to their loved one.”
 
